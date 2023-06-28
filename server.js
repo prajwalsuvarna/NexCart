@@ -3,6 +3,7 @@ import "colors"
 import dotenv from "dotenv"
 import morgan from "morgan"
 import connectDB from "./config/db.js"
+import authRoutes from "./routes/authRoutes.js"
 
 
 //configuring dotenv
@@ -18,6 +19,10 @@ const app=express();
 app.use(express.json())//enable json parsing in req and response
 app.use(morgan('dev'))
 
+
+//routes
+
+app.use('/api/auth',authRoutes)
 
 // listening to port
 app.listen(PORT,()=>{ 
