@@ -1,6 +1,6 @@
 import express from "express"
 import {registerController,loginController, testController} from "../controllers/authController.js"
-import {requireLogin} from "../middlewares/authMiddleware.js"
+import {requireLogin,isAdmin} from "../middlewares/authMiddleware.js"
 //router object
 
 
@@ -12,7 +12,7 @@ router.post('/register',registerController);
 //login
 router.post('/login',loginController);
 
-router.get('/test',requireLogin,testController)
+router.get('/test',requireLogin,isAdmin,testController)
 
 
 export default router;
