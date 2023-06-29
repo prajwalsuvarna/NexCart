@@ -1,19 +1,34 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react'
-import Header from '../Layout/Header'
-import Footer from '../Layout/Footer'
+import React from "react";
+import Header from "../Layout/Header";
+import Footer from "../Layout/Footer";
+import { Helmet } from "react-helmet";
 
-const Layout = ({children}) => {
+const Layout = ({ children, title, desciption, keywords, author }) => {
   return (
     <>
-    <Header />
-     <main className='min-h-[90vh]'>
-{children}
-     </main>
-    <Footer />
+      <Helmet>
+        <div>
+          <meta charset="UTF-8" />
+          <meta name="description" content={desciption} />
+          <meta name="keywords" content={keywords} />
+          <meta name="author" content={author} />
+        </div>
+        <title>{title}</title>
+      </Helmet>
+      <Header />
+
+      <main className="min-h-[90vh]">{children}</main>
+      <Footer />
     </>
-  )
-}
+  );
+};
 
+Layout.defaultProps = {
+  title: "Welcome to NexEcom",
+  desciption: "We sell the best products for best prices",
+  keywords: "electronics, buy electronics, best electronics",
+  author: "NexEcom",
+};
 
-export default Layout
+export default Layout;
