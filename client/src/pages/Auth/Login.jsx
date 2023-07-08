@@ -3,10 +3,12 @@ import Layout from "../../components/Layout/Layout";
 import { Link ,useNavigate} from "react-router-dom";
 import { GiShoppingCart } from "react-icons/gi";
 import toast from "react-hot-toast";
+import { useAuth } from "../../contexts/auth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [auth,setAuth] = useAuth()
 
   const Navigate = useNavigate();
 
@@ -32,8 +34,10 @@ const Login = () => {
       if (res.status === 400 || !data) {
         toast.error(data.message);
       } else {
-        Navigate("/");
         toast.success("Login Successfull");
+        setAuth({...auth,token:data.token,user:data.user})
+        localStorage.setItem("auth",JSON.stringify(data))
+        Navigate("/");
         setEmail("");
         setPassword("");
       }
