@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Layout from "../components/Layout/Layout";
-import { Link } from "react-router-dom";
+import Layout from "../../components/Layout/Layout";
+import { Link, useNavigate } from "react-router-dom";
 import { GiShoppingCart } from "react-icons/gi";
 import toast from "react-hot-toast";
 
@@ -12,29 +12,35 @@ const Register = () => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
 
+  const Navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-          cpassword,
-          phone,
-          address,
-        }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/auth/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            password,
+            cpassword,
+            phone,
+            address,
+          }),
+        }
+      );
       const data = await res.json();
       console.log(data);
       if (res.status === 400 || !data) {
         toast.error(data.message);
       } else {
         toast.success("Registration Successfull");
+        Navigate("/login");
         setName("");
         setEmail("");
         setPassword("");

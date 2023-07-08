@@ -15,7 +15,7 @@ const Header = () => {
       <Link to="/" className="mr-5 hover:text-gray-900">Home</Link>
       <Link to="/about" className="mr-5 hover:text-gray-900">Category</Link>
       <Link to="/register" className="mr-5 hover:text-gray-900">Register</Link>
-      <Link to="/" className="mr-5 hover:text-gray-900">Logint</Link>
+      <Link to="/login" className="mr-5 hover:text-gray-900">Login</Link>
       <Link to="/" className="mr-5 hover:text-gray-900">Cart(0)</Link>
     </nav>
     <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Button
