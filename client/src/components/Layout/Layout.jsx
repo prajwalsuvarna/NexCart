@@ -3,6 +3,7 @@ import React from "react";
 import Header from "../Layout/Header";
 import Footer from "../Layout/Footer";
 import { Helmet } from "react-helmet";
+import { Toaster } from "react-hot-toast";
 
 const Layout = ({ children, title, desciption, keywords, author }) => {
   return (
@@ -17,8 +18,10 @@ const Layout = ({ children, title, desciption, keywords, author }) => {
         <title>{title}</title>
       </Helmet>
       <Header />
-
-      <main className="min-h-[90vh]">{children}</main>
+      <main className="min-h-[90vh]">
+        <Toaster />
+        {children}
+      </main>
       <Footer />
     </>
   );

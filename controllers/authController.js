@@ -4,15 +4,21 @@ import jwt from "jsonwebtoken";
 
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password, phone, address } = req.body;
+    const { name, email, password,cpassword, phone, address } = req.body;
     //check if user already exists
-    if (!name || !email || !password || !phone || !address) {
+    if (!name || !email || !password || !cpassword || !phone || !address) {
       return res.status(400).send({
         success: false,
         message: "Please fill all the fields",
       });
     }
-    const user = await userModel.findOne({ email });
+    if(password!==cpassword){
+        return res.status(400).send({
+            success:false,
+            message:"Password and confirm password do not match"
+        })
+    }
+      const user = await userModel.findOne({ email });
     if (user) {
       return res.status(400).send({
         success: false,

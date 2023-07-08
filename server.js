@@ -4,10 +4,12 @@ import dotenv from "dotenv"
 import morgan from "morgan"
 import connectDB from "./config/db.js"
 import authRoutes from "./routes/authRoutes.js"
+import cors from "cors"
 
 
 //configuring dotenv
 dotenv.config()
+
 //connecting to database
 connectDB()
 
@@ -16,6 +18,7 @@ const PORT=process.env.PORT || 8080;
 const app=express();
 
 //middleware
+app.use(cors())
 app.use(express.json())//enable json parsing in req and response
 app.use(morgan('dev'))
 
