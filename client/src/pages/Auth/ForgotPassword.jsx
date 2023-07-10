@@ -1,23 +1,21 @@
 import React, { useState } from "react";
 import Layout from "../../components/Layout/Layout";
-import { Link ,useNavigate,useLocation} from "react-router-dom";
-import { GiShoppingCart } from "react-icons/gi";
-import toast from "react-hot-toast";
-import { useAuth } from "../../contexts/auth";
+import { Link ,useNavigate,useLocation} from "react-router-dom"
+import { GiShoppingCart } from "react-icons/gi"
+import toast from "react-hot-toast"
 
-const Login = () => {
+const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [auth,setAuth] = useAuth()
+  const [newPassword, setNewPassword] = useState("");
+  const [answer,setAnswer] = useState()
 
-  const Navigate = useNavigate();
-  const location = useLocation()
+  const Navigate = useNavigate()
 
   const handleSubmit = async (e) => { 
     e.preventDefault();
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/auth/login`,
+        `${import.meta.env.VITE_API_URL}/api/auth/forgot-password`,
         {
           method: "POST",
           headers: {
@@ -25,22 +23,22 @@ const Login = () => {
           },
           body: JSON.stringify({
             email,
-            password,
+            newPassword,
+            answer
           }),
 
         }
       );
-      const data = await res.json();
+      const data = await res.json()
       console.log(data);
       if (res.status === 400 || !data) {
-        toast.error(data.message);
+        toast.error(data.message)
       } else {
-        toast.success("Login Successfull");
-        setAuth({...auth,token:data.token,user:data.user})
-        localStorage.setItem("auth",JSON.stringify(data))
-        Navigate(location.state ||"/");
-        setEmail("");
-        setPassword("");
+        toast.success("Password Updated Successfully!");
+        Navigate("/login")
+        setEmail("")
+        setNewPassword("")
+        setAnswer("")
       }
     } catch (err) {
       toast.error(err.response.data.msg);
@@ -48,7 +46,7 @@ const Login = () => {
   };
 
   return (
-    <Layout title="Login | NexCom">
+    <Layout title="ForgotPassword | NexCom">
       <div className="flex flex-col items-center min-h-screen pt-6 sm:justify-center sm:pt-0 bg-gray-50">
         <div>
           <Link
@@ -56,7 +54,7 @@ const Login = () => {
             className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0"
           >
             <GiShoppingCart className="text-4xl" />
-            <span className="ml-3 text-xl">NexEcom</span>
+            <span className="ml-3 text-xl">Forgot Password</span>
           </Link>
         </div>
         <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
@@ -85,32 +83,46 @@ const Login = () => {
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-700 undefined"
               >
-                Password
+               Enter New  Password
               </label>
               <div className="flex flex-col items-start">
                 <input
                   type="password"
                   name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
                   className="block w-full mt-1 p-2 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  placeholder="Enter your password"
+                  placeholder="Enter your new  password"
+                />
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <label
+                htmlFor="answer"
+                className="block text-sm font-medium text-gray-700 undefined"
+              >
+               Enter your answer
+              </label>
+              <div className="flex flex-col items-start">
+                <input
+                  type="password"
+                  name="password"
+                  value={answer}
+                  onChange={(e) => setAnswer(e.target.value)}
+                  className="block w-full mt-1 p-2 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  placeholder="What is your favourite sport?"
                 />
               </div>
             </div>
 
             <div className="flex flex-col items-center justify-center mt-4">
-            <button
-                type="submit" onClick={()=>Navigate("/forgot-password")}
-                className="inline-flex items-center px-2 py-2 m-4 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-900 border border-transparent rounded-md active:bg-gray-900 false"
-              >
-                Forgot password
-              </button>
+            
               <button
                 type="submit"
                 className="inline-flex items-center px-4 py-2 ml-4 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-900 border border-transparent rounded-md active:bg-gray-900 false"
               >
-                Login
+               UPDATE
               </button>
             </div>
           </form>
@@ -120,4 +132,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;

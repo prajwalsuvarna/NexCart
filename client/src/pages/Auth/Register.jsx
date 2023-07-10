@@ -11,6 +11,7 @@ const Register = () => {
   const [cpassword, setCPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [answer, setAnswer] = useState("");
 
   const Navigate = useNavigate();
 
@@ -31,6 +32,7 @@ const Register = () => {
             cpassword,
             phone,
             address,
+            answer
           }),
         }
       );
@@ -142,6 +144,24 @@ const Register = () => {
             </div>
             <div className="mt-4">
               <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 undefined"
+              >
+                Security Question
+              </label>
+              <div className="flex flex-col items-start">
+                <input
+                  type="text"
+                  name="answer"
+                  value={answer}
+                  onChange={(e) => setAnswer(e.target.value)}
+                  className="block w-full mt-1 p-2 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  placeholder="What is your favourite sport?"
+                />
+              </div>
+            </div>
+            <div className="mt-4">
+              <label
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-700 undefined"
               >
@@ -176,6 +196,7 @@ const Register = () => {
                 />
               </div>
             </div>
+            
             <div className="flex items-center justify-center mt-4">
               <button
                 type="submit"

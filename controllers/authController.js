@@ -4,9 +4,9 @@ import jwt from "jsonwebtoken";
 
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password,cpassword, phone, address } = req.body;
+    const { name, email, password,cpassword, phone, address ,answer} = req.body;
     //check if user already exists
-    if (!name || !email || !password || !cpassword || !phone || !address) {
+    if (!name || !email || !password || !cpassword || !phone || !address || !answer) {
       return res.status(400).send({
         success: false,
         message: "Please fill all the fields",
@@ -33,6 +33,7 @@ export const registerController = async (req, res) => {
       password: hashedPassword,
       phone,
       address,
+      answer
     });
     await newUser.save();
     res.status(200).send({
@@ -96,6 +97,41 @@ export const loginController = async (req, res) => {
     });
   }
 };
+
+
+//forgot password controller
+export const forgotPasswordController=async(req,res)=>{
+  try{
+    const {email,answer,newPassword}=req.body;
+    if(!email || !answer|| !newPassword){
+      return res.status(400).send({
+        success:false,
+        message:"Please fill all the fields"
+      })
+    }
+    // ..check
+    const user=await userModel.findOne({email,answer});
+    if(!user){
+      return res.status(400).send({
+        success:false,
+        message:"Wrong Email or answer"
+      })
+    }
+    const hashedPassword=await hashPassword(newPassword);
+    await userModel.findByIdAndUpdate(user._id,{password:hashedPassword});
+    res.status(200).send({
+      success:true,
+      message:"Password changed successfully"
+    })
+  }catch(error){
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Forgot password error",
+      error: error.message,
+    })
+  }
+}
 
 
 export const testController=async(req,res)=>{
