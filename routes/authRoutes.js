@@ -14,5 +14,11 @@ router.post('/login',loginController);
 
 router.get('/test',requireLogin,isAdmin,testController)
 
+//protected router auth
+router.get("/user-auth",requireLogin,(req,res)=>{
+    res.status(200).send({
+        ok:true })
+})
+
 
 export default router;

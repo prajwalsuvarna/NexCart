@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Layout from "../../components/Layout/Layout";
-import { Link ,useNavigate} from "react-router-dom";
+import { Link ,useNavigate,useLocation} from "react-router-dom";
 import { GiShoppingCart } from "react-icons/gi";
 import toast from "react-hot-toast";
 import { useAuth } from "../../contexts/auth";
@@ -11,6 +11,7 @@ const Login = () => {
   const [auth,setAuth] = useAuth()
 
   const Navigate = useNavigate();
+  const location = useLocation()
 
   const handleSubmit = async (e) => { 
     e.preventDefault();
@@ -37,7 +38,7 @@ const Login = () => {
         toast.success("Login Successfull");
         setAuth({...auth,token:data.token,user:data.user})
         localStorage.setItem("auth",JSON.stringify(data))
-        Navigate("/");
+        Navigate(location.state ||"/");
         setEmail("");
         setPassword("");
       }

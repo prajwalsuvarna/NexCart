@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { GiShoppingCart } from "react-icons/gi";
 import { useAuth } from "../../contexts/auth";
+import { toast } from "react-hot-toast";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
@@ -10,9 +11,10 @@ const Header = () => {
       ...auth,
       user: null,
       token: "",
-    });
-    localStorage.removeItem("auth");
-  };
+    })
+    localStorage.removeItem("auth")
+    toast.success("Logout Successfull")
+  }
   return (
     <div>
       <header className="text-gray-600 body-font">
@@ -27,6 +29,9 @@ const Header = () => {
           <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
             <Link to="/" className="mr-5 hover:text-gray-900">
               Home
+            </Link>
+            <Link to="/dashboard" className="mr-5 hover:text-gray-900">
+              DashBoard
             </Link>
             <Link to="/about" className="mr-5 hover:text-gray-900">
               Category

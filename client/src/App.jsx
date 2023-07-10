@@ -7,12 +7,19 @@ import Policy from "./pages/Policy";
 import Error from "./pages/Error";
 import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
+import Dashboard from "./pages/User/Dashboard";
+import PrivateRoute from "./components/Routes/Private";
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        {/* Nested Routes */}
+        <Route path="/dashboard" element={<PrivateRoute/>}>
+        <Route path="" element={<Dashboard />} />
+        </Route>
+        
         <Route path="/register" element={<Register />} />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
