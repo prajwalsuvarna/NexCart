@@ -6,7 +6,7 @@ import connectDB from "./config/db.js"
 import authRoutes from "./routes/authRoutes.js"
 import cors from "cors"
 const corsOptions ={
-	origin: 'http://127.0.0.1:5173',
+	origin: ['http://127.0.0.1:5173','https://nex-ecom.vercel.app/'],,
 	credentials: true,
   };
 
