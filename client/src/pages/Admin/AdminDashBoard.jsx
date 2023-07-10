@@ -1,12 +1,13 @@
 import React from 'react'
 import Layout from '../../components/Layout/Layout'
+import AdminMenu from '../../components/Layout/AdminMenu'
 
 const AdminDashBoard = () => {
   return (
-    <Layout title="ForgotPassword | NexCom">
-        <div className="flex flex-col items-center min-h-screen pt-6 sm:justify-center sm:pt-0 bg-gray-50">
+    <Layout title="Admin Dashboard | NexCom">
+        <div className="flex flex-col  pt-6 sm:justify-center sm:pt-0 bg-gray-50">
             <div>
-                <h1>Admin</h1>
+              <AdminMenu/>
             </div>
             </div>
         </Layout>
