@@ -27,7 +27,7 @@ export const isAdmin=async (req,res,next)=>{
         if(user.role!==1){
             return res.status(401).send({
                 success:false,
-                message:"You are3 not authorized"
+                message:"You are not authorized"
             })
         }
         next()

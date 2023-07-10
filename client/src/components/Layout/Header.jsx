@@ -30,7 +30,7 @@ const Header = () => {
             <Link to="/" className="mr-5 hover:text-gray-900">
               Home
             </Link>
-            <Link to="/dashboard" className="mr-5 hover:text-gray-900">
+            <Link to={`/dashboard/${auth?.user?.role==1?"admin":"user"}`} className="mr-5 hover:text-gray-900">
               DashBoard
             </Link>
             <Link to="/about" className="mr-5 hover:text-gray-900">

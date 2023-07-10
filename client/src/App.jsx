@@ -10,6 +10,8 @@ import Login from "./pages/Auth/Login";
 import Dashboard from "./pages/User/Dashboard";
 import PrivateRoute from "./components/Routes/Private";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
+import AdminRoute from "./components/Routes/Admin";
+import AdminDashBoard from "./pages/Admin/AdminDashBoard";
 
 function App() {
   return (
@@ -18,7 +20,10 @@ function App() {
         <Route path="/" element={<HomePage />} />
         {/* Nested Routes */}
         <Route path="/dashboard" element={<PrivateRoute/>}>
-        <Route path="" element={<Dashboard />} />
+        <Route path="user" element={<Dashboard />} />
+        </Route>
+        <Route path="/dashboard" element={<AdminRoute/>}>
+        <Route path="admin" element={<AdminDashBoard/>} />
         </Route>
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/register" element={<Register />} />
