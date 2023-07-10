@@ -15,6 +15,8 @@ import AdminDashBoard from "./pages/Admin/AdminDashBoard";
 import CreateCategory from "./pages/Admin/CreateCategory";
 import CreateProduct from "./pages/Admin/CreateProduct";
 import Users from "./pages/Admin/Users";
+import Orders from "./pages/User/Orders";
+import Profile from "./pages/User/Profile";
 
 
 function App() {
@@ -25,6 +27,9 @@ function App() {
         {/* Nested Routes */}
         <Route path="/dashboard" element={<PrivateRoute/>}>
         <Route path="user" element={<Dashboard />} />
+        <Route path="u/profile" element={<Profile />} />
+        <Route path="u/orders" element={<Orders />} />
+
         </Route>
         <Route path="/dashboard" element={<AdminRoute/>}>
         <Route path="admin" element={<AdminDashBoard/>} />

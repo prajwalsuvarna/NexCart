@@ -6,7 +6,7 @@ import connectDB from "./config/db.js"
 import authRoutes from "./routes/authRoutes.js"
 import cors from "cors"
 const corsOptions ={
-	origin: ['http://127.0.0.1:5173','https://nex-ecom.vercel.app/'],
+	origin: 'http://127.0.0.1:5173',
 	credentials: true,
   };
 
@@ -26,11 +26,11 @@ const app=express();
 app.use(cors(corsOptions))
 app.use(express.json())//enable json parsing in req and response
 app.use(morgan('dev'))
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+//   });
 
 
 //routes
