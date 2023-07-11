@@ -5,7 +5,6 @@ import toast from "react-hot-toast";
 import CategoryFrom from "../../components/Form/CategoryForm";
 import { useAuth } from "../../contexts/auth";
 import { Modal } from "antd";
-import { set } from "mongoose";
 
 const CreateCategory = () => {
   const [auth, setAuth] = useAuth();
@@ -14,8 +13,8 @@ const CreateCategory = () => {
   const [name, setName] = useState("");
   const [visible, setVisible] = useState(false);
 
-  const [selected,setSelected]=useState(null)
-  const [updatedName,setUpdatedName]=useState("")
+  const [selected, setSelected] = useState(null);
+  const [updatedName, setUpdatedName] = useState("");
 
   //handle Form to create new category
   const handleSubmit = async (e) => {
@@ -53,7 +52,9 @@ const CreateCategory = () => {
     e.preventDefault();
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/category/update-category/${selected._id}`,
+        `${import.meta.env.VITE_API_URL}/api/category/update-category/${
+          selected._id
+        }`,
         {
           method: "PUT",
           headers: {
@@ -61,7 +62,7 @@ const CreateCategory = () => {
             "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify({ name:updatedName }),
+          body: JSON.stringify({ name: updatedName }),
         }
       );
       const data = await res.json();
@@ -69,8 +70,8 @@ const CreateCategory = () => {
       if (res.ok) {
         toast.success(`Updated successfully`);
         setName("");
-        setUpdatedName("")
-        setSelected(null)
+        setUpdatedName("");
+        setSelected(null);
         getAllCategories();
       } else {
         toast.error(data.error);
@@ -132,7 +133,6 @@ const CreateCategory = () => {
     }
   };
 
-
   useEffect(() => {
     getAllCategories();
   }, []);
@@ -178,12 +178,22 @@ const CreateCategory = () => {
                         {category.name}
                       </td>
                       <td className="px-6 py-4">
-                        <button className="px-2 mx-2 py-1 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-gray-700 rounded-md dark:bg-gray-600 hover:bg-gray-500 dark:hover:bg-gray-500 focus:outline-none focus:bg-gray-500 dark:focus:bg-gray-500"
-                        onClick={()=>{setVisible(true);setUpdatedName(category.name);setSelected(category);}}
+                        <button
+                          className="px-2 mx-2 py-1 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-gray-700 rounded-md dark:bg-gray-600 hover:bg-gray-500 dark:hover:bg-gray-500 focus:outline-none focus:bg-gray-500 dark:focus:bg-gray-500"
+                          onClick={() => {
+                            setVisible(true);
+                            setUpdatedName(category.name);
+                            setSelected(category);
+                          }}
                         >
                           Edit
                         </button>
-                        <button onClick={()=>{handleDelete(category._id)}} className="px-2 mx-2 py-1 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-red-700 rounded-md dark:bg-red-600 hover:bg-red-500 dark:hover:bg-red-500 focus:outline-none focus:bg-red-500 dark:focus:bg-red-500">
+                        <button
+                          onClick={() => {
+                            handleDelete(category._id);
+                          }}
+                          className="px-2 mx-2 py-1 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-red-700 rounded-md dark:bg-red-600 hover:bg-red-500 dark:hover:bg-red-500 focus:outline-none focus:bg-red-500 dark:focus:bg-red-500"
+                        >
                           Delete
                         </button>
                       </td>
@@ -192,9 +202,17 @@ const CreateCategory = () => {
               </tbody>
             </table>
           </div>
-          <Modal onCancel={()=>setVisible(false)} footer={null} open={visible} > 
+          <Modal
+            onCancel={() => setVisible(false)}
+            footer={null}
+            open={visible}
+          >
             <h1 className="text-2xl">Edit Category</h1>
-            <CategoryFrom value={updatedName} setValue={setUpdatedName} handleSubmit={handleUpdate}/>
+            <CategoryFrom
+              value={updatedName}
+              setValue={setUpdatedName}
+              handleSubmit={handleUpdate}
+            />
           </Modal>
         </div>
       </div>
