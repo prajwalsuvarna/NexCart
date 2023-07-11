@@ -4,6 +4,7 @@ import fs from "fs";
 
 export const createProductController = async (req, res) => {
   try {
+   
     const { name, description, slug, price, category, quantity, shipping } =
       req.fields;
     const { photo } = req.files;
@@ -15,6 +16,7 @@ export const createProductController = async (req, res) => {
     if (photo.size > 1000000)
       return res.status(500).send({ error: "photo should be less then 1mb" });
     const product = new productModel({ ...req.fields, slug: slugify(name) });
+    await product.save();
     if (photo) {
       product.photo.data = fs.readFileSync(photo.path);
       product.photo.contentType = photo.type;
