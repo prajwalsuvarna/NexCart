@@ -4,6 +4,8 @@ import dotenv from "dotenv"
 import morgan from "morgan"
 import connectDB from "./config/db.js"
 import authRoutes from "./routes/authRoutes.js"
+import categoryRoutes from "./routes/categoryRoutes.js"
+
 import cors from "cors"
 const corsOptions ={
 	origin: 'http://127.0.0.1:5173',
@@ -36,6 +38,7 @@ app.use(morgan('dev'))
 //routes
 
 app.use('/api/auth',authRoutes)
+app.use('/api/category',categoryRoutes )
 
 // listening to port
 app.listen(PORT,()=>{ 
