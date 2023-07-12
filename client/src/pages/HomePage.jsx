@@ -12,11 +12,16 @@ const HomePage = () => {
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
   const [radio, setRadio] = useState([]);
+  const [total, setTotal] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  console.log("page initial", page);
 
-  const getAllProducts = async () => {
+  //get total
+  const getTotal = async () => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/product/products`,
+        `${import.meta.env.VITE_API_URL}/api/product/product-count`,
         {
           method: "GET",
           headers: {
@@ -25,8 +30,31 @@ const HomePage = () => {
         }
       );
       const data = await res.json();
+      setTotal(data["total"]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log("total", total);
+  const getAllProducts = async () => {
+    try {
+      setLoading(true);
+      console.log("page", page)
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/product/product-list/${page}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      );
+      const data = await res.json();
+      setLoading(false);
+      console.log(data);
       setProducts(data["products"]);
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -53,6 +81,7 @@ const HomePage = () => {
   useEffect(() => {
     if (!checked.length && !radio.length) getAllProducts();
     getAllCategories();
+    getTotal();
   }, [checked, radio]);
 
   useEffect(() => {
@@ -67,6 +96,32 @@ const HomePage = () => {
       all = all.filter((item) => item !== id);
     }
     setChecked(all);
+  };
+useEffect(() => {
+  if(page==1)return
+    loadMore();
+  }, [page]);
+
+  const loadMore = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/product/product-list/${page}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      );
+
+      const data = await res.json();
+      setLoading(false);
+      console.log(page)
+      setProducts((prevProducts) => [...prevProducts, ...data["products"]]);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const FilterProduct = async () => {
@@ -90,10 +145,9 @@ const HomePage = () => {
       console.log(error);
     }
   };
-
   return (
     <Layout title="Home | NexCom">
-      <div className="grid grid-cols-5 gap-4">
+      <div className="grid grid-cols-5 gap-4 min-h-screen">
         <div className="col-span-1">
           <h1 className="text-5xl">Filter By category</h1>
           <div className="flex flex-col">
@@ -122,15 +176,25 @@ const HomePage = () => {
               ))}
             </Radio.Group>
           </div>
+
+          <div className="flex flex-col">
+            <button
+              className="my-2  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              onClick={() => {
+                window.location.reload();
+              }}
+            >
+              Reset filters
+            </button>
+          </div>
         </div>
-        <div className="col-span-4">
+        <div className="col-span-4 ">
           <h1 className="text-5xl">All Products</h1>
-          <div className="flex flex-wrap">
-            <h1>Products</h1>
+          <div className="flex flex-wrap  border-2 border-red-300">
             {products?.map((product, index) => (
               <Link
                 to={`/dashboard/admin/product/${product.slug}`}
-                className="h-60"
+                // className=""
               >
                 <div className=" m-3 w-56 h-[400px] bg-white border rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 border-red-500">
                   <img
@@ -164,6 +228,19 @@ const HomePage = () => {
                 </div>
               </Link>
             ))}
+          </div>
+          <div className="m-2 p-3">
+            {products && products.length < total && (
+              <button
+                className="my-2  text-white bg-yellow-300 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-400 dark:hover:bg-yellow-400 dark:focus:ring-yellow-400"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setPage(page + 1);
+                }}
+              >
+                {loading ? "Loading..." : "Load More"}
+              </button>
+            )}
           </div>
         </div>
       </div>
