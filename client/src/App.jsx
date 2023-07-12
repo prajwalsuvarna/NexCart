@@ -19,6 +19,7 @@ import Orders from "./pages/User/Orders";
 import Profile from "./pages/User/Profile";
 import Products from "./pages/Admin/Products";
 import UpdateProduct from "./pages/Admin/UpdateProduct";
+import Search from "./pages/Search";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           <Route path="admin/product/:slug" element={<UpdateProduct />} />
           <Route path="admin/users" element={<Users />} />
         </Route>
+        <Route path="/dashboard/search" element={<Search />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/register" element={<Register />} />
         <Route path="/about" element={<About />} />

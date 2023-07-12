@@ -9,12 +9,10 @@ const Layout = ({ children, title, desciption, keywords, author }) => {
   return (
     <>
       <Helmet>
-        <div>
           <meta charset="UTF-8" />
           <meta name="description" content={desciption} />
           <meta name="keywords" content={keywords} />
           <meta name="author" content={author} />
-        </div>
         <title>{title}</title>
       </Helmet>
       <Header />

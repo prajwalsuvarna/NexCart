@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { GiShoppingCart } from "react-icons/gi";
 import { useAuth } from "../../contexts/auth";
 import { toast } from "react-hot-toast";
+import SearchInput from "../Form/SearchInput.jsx";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
@@ -25,6 +26,7 @@ const Header = () => {
           >
             <GiShoppingCart className="text-4xl" />
             <span className="ml-3 text-xl">NexEcom</span>
+            <SearchInput />
           </Link>
           <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
             <Link to="/" className="mr-5 hover:text-gray-900">
@@ -32,9 +34,6 @@ const Header = () => {
             </Link>
             <Link to={`/dashboard/${auth?.user?.role==1?"admin":"user"}`} className="mr-5 hover:text-gray-900">
               DashBoard
-            </Link>
-            <Link to="/about" className="mr-5 hover:text-gray-900">
-              Category
             </Link>
             {!auth.user ? (
               <>
