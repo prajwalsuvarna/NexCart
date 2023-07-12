@@ -15,6 +15,7 @@ const HomePage = () => {
   const [total, setTotal] = useState(1);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const navigate = useNavigate();
   console.log("page initial", page);
 
   //get total
@@ -39,7 +40,7 @@ const HomePage = () => {
   const getAllProducts = async () => {
     try {
       setLoading(true);
-      console.log("page", page)
+      console.log("page", page);
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/api/product/product-list/${page}`,
         {
@@ -97,8 +98,8 @@ const HomePage = () => {
     }
     setChecked(all);
   };
-useEffect(() => {
-  if(page==1)return
+  useEffect(() => {
+    if (page == 1) return;
     loadMore();
   }, [page]);
 
@@ -117,7 +118,7 @@ useEffect(() => {
 
       const data = await res.json();
       setLoading(false);
-      console.log(page)
+      console.log(page);
       setProducts((prevProducts) => [...prevProducts, ...data["products"]]);
     } catch (error) {
       console.log(error);
@@ -192,10 +193,7 @@ useEffect(() => {
           <h1 className="text-5xl">All Products</h1>
           <div className="flex flex-wrap  border-2 border-red-300">
             {products?.map((product, index) => (
-              <Link key={index}
-                to={`/dashboard/admin/product/${product.slug}`}
-              >
-                <div className=" m-3 w-56 h-[400px] bg-white border rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 border-red-500">
+                <div key={index} className=" m-3 w-56 h-[400px] bg-white border rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 border-red-500">
                   <img
                     className="p-4 h-36 w-36 rounded-t-lg"
                     src={`${
@@ -203,27 +201,22 @@ useEffect(() => {
                     }/api/product/product-photo/${product._id}`}
                     alt="product image"
                   />
-                  <div className="px-5   pb-2">
+                  <div className="px-5   pb-2" >
                     <div className=" border-2  flex flex-col flex-wrap items-center mb-10 justify-end">
                       <span className="text-3xl flex justify-between font-bold text-gray-900 dark:text-white">
                         {product.price}
                         {product.name}
                       </span>
                       {product.description}
-                      <div
-                        className=" my-2  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                      >
+                      <button onClick={()=> navigate(`/product/${product.slug}`)} className=" my-2  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         More Details
-                      </div>
-                      <div
-                        className="my-2  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                      >
+                      </button>
+                      <button className="my-2  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Add to cart
-                      </div>
+                      </button>
                     </div>
                   </div>
                 </div>
-              </Link>
             ))}
           </div>
           <div className="m-2 p-3">
