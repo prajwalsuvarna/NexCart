@@ -48,8 +48,8 @@ const Cart = () => {
         ${auth?.token ? "" : "Please Login to checkout"}`
             : "Your Cart is Empty"}
         </h2>
-        <div class="grid grid-cols-5 gap-4">
-          <div class="col-span-3 border-2 border-red-600">
+        <div className="grid grid-cols-5 gap-4">
+          <div className="col-span-3 border-2 border-red-600">
             <h1>Checkout</h1>
             {cart?.map((item,index) => (
               <div key={index} className="border bg-gray-100 rounded-md">
@@ -71,7 +71,7 @@ const Cart = () => {
               </div>
             ))}
           </div>
-          <div class="col-span-2 bg-gray-200">
+          <div className="col-span-2 bg-gray-200">
             <h1>Cart Summary</h1>
             <p>total|checkout|Payment</p>
             <p>Total :{totalPrice()}</p>

@@ -4,21 +4,30 @@ import jwt from "jsonwebtoken";
 
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password,cpassword, phone, address ,answer} = req.body;
+    const { name, email, password, cpassword, phone, address, answer } =
+      req.body;
     //check if user already exists
-    if (!name || !email || !password || !cpassword || !phone || !address || !answer) {
+    if (
+      !name ||
+      !email ||
+      !password ||
+      !cpassword ||
+      !phone ||
+      !address ||
+      !answer
+    ) {
       return res.status(400).send({
         success: false,
         message: "Please fill all the fields",
       });
     }
-    if(password!==cpassword){
-        return res.status(400).send({
-            success:false,
-            message:"Password and confirm password do not match"
-        })
+    if (password !== cpassword) {
+      return res.status(400).send({
+        success: false,
+        message: "Password and confirm password do not match",
+      });
     }
-      const user = await userModel.findOne({ email });
+    const user = await userModel.findOne({ email });
     if (user) {
       return res.status(400).send({
         success: false,
@@ -33,7 +42,7 @@ export const registerController = async (req, res) => {
       password: hashedPassword,
       phone,
       address,
-      answer
+      answer,
     });
     await newUser.save();
     res.status(200).send({
@@ -55,41 +64,43 @@ export const registerController = async (req, res) => {
 export const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
-    if(!email || !password){
-        return res.status(400).send({
-            success:false,
-            message:"Invalid username or password"
-        })
+    if (!email || !password) {
+      return res.status(400).send({
+        success: false,
+        message: "Invalid username or password",
+      });
     }
-    const user= await userModel.findOne({email});
-    if(!user){
-        return res.status(400).send({
-            success:false,
-            message:"Email is not registered"
-        })
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res.status(400).send({
+        success: false,
+        message: "Email is not registered",
+      });
     }
-    
-    const match=await comparePassword(password,user.password)
-    if(!match){
-        return res.status(400).send({
-            success:false,
-            message:"Invalid username or password"
-        })
+
+    const match = await comparePassword(password, user.password);
+    if (!match) {
+      return res.status(400).send({
+        success: false,
+        message: "Invalid username or password",
+      });
     }
-    const token=jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:"1d"});
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
     res.status(200).send({
-        success:true,
-        message:'Login Successful',
-        user:{
-            _id:user._id,
-            name:user.name,
-            email:user.email,
-            phone:user.phone,
-            address:user.address,
-            role:user.role,
-        },
-        token
-    })
+      success: true,
+      message: "Login Successful",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        address: user.address,
+        role: user.role,
+      },
+      token,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -100,42 +111,74 @@ export const loginController = async (req, res) => {
   }
 };
 
-
 //forgot password controller
-export const forgotPasswordController=async(req,res)=>{
-  try{
-    const {email,answer,newPassword}=req.body;
-    if(!email || !answer|| !newPassword){
+export const forgotPasswordController = async (req, res) => {
+  try {
+    const { email, answer, newPassword } = req.body;
+    if (!email || !answer || !newPassword) {
       return res.status(400).send({
-        success:false,
-        message:"Please fill all the fields"
-      })
+        success: false,
+        message: "Please fill all the fields",
+      });
     }
     // ..check
-    const user=await userModel.findOne({email,answer});
-    if(!user){
+    const user = await userModel.findOne({ email, answer });
+    if (!user) {
       return res.status(400).send({
-        success:false,
-        message:"Wrong Email or answer"
-      })
+        success: false,
+        message: "Wrong Email or answer",
+      });
     }
-    const hashedPassword=await hashPassword(newPassword);
-    await userModel.findByIdAndUpdate(user._id,{password:hashedPassword});
+    const hashedPassword = await hashPassword(newPassword);
+    await userModel.findByIdAndUpdate(user._id, { password: hashedPassword });
     res.status(200).send({
-      success:true,
-      message:"Password changed successfully"
-    })
-  }catch(error){
+      success: true,
+      message: "Password changed successfully",
+    });
+  } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
       message: "Forgot password error",
       error: error.message,
-    })
+    });
   }
-}
+};
 
+export const testController = async (req, res) => {
+  res.send("protected route");
+};
 
-export const testController=async(req,res)=>{
-   res.send("protected route")
-}
+export const updateProfileController = async (req, res) => {
+  try {
+    const { name, email, phone, password, address } = req.body;
+    const user = await userModel.findById(req.user.id);
+    if (password && password?.length < 6) {
+      return res.status(400).send({
+        success: false,
+        message: "Password is required and six characthers long",
+      });
+    }
+    console.log(req.user,"inside the controller")
+    const hashedPassword = password ? await hashPassword(password) : undefined;
+    const updatedUser = await userModel.findByIdAndUpdate(req.user.id, {
+      name: name || user.name,
+      email: email || user.email,
+      phone: phone || user.phone,
+      address: address || user.address,
+      password: hashedPassword || user.password,
+    });
+    return res.status(200).send({
+      success: true,
+      message: "Profile updated successfully",
+      updatedUser,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Update profile error",
+      error: error.message,
+    });
+  }
+};

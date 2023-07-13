@@ -6,6 +6,7 @@ try{
     const decode=JWT.verify(req.headers.authorization,process.env.JWT_SECRET)
     req.user=decode//adding user to req
     console.log(decode)
+    console.log(req.user,"req.user")
     next()
 }catch(error){
     console.log(error)

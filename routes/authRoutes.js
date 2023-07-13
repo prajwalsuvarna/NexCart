@@ -1,37 +1,47 @@
-import express from "express"
-import {registerController,loginController, testController, forgotPasswordController} from "../controllers/authController.js"
-import {requireLogin,isAdmin} from "../middlewares/authMiddleware.js"
+import express from "express";
+import {
+  registerController,
+  loginController,
+  testController,
+  forgotPasswordController,
+  updateProfileController
+} from "../controllers/authController.js";
+import { requireLogin, isAdmin } from "../middlewares/authMiddleware.js";
 
 //router object
 
-
-const router=express.Router();
+const router = express.Router();
 
 //rouutes
 //register
-router.post('/register',registerController);
+router.post("/register", registerController);
 //login
-router.post('/login',loginController);
+router.post("/login", loginController);
 
 //forgot password
-router.post('/forgot-password',forgotPasswordController);
+router.post("/forgot-password", forgotPasswordController);
 
-router.get('/test',requireLogin,isAdmin,testController)
+router.get("/test", requireLogin, isAdmin, testController);
 
 //protected router auth for user
-router.get("/user-auth",requireLogin,(req,res)=>{
-    console.log("testing auth")
-    res.status(200).send({
-        ok:true })
-})
+router.get("/user-auth", requireLogin, (req, res) => {
+  console.log("testing auth");
+  res.status(200).send({
+    ok: true,
+  });
+});
 
 //protected router auth for admin
-router.get("/admin-auth",requireLogin,isAdmin,(req,res)=>{
-    console.log("testing auth")
-    console.log(req.user)
-    res.status(200).send({
-        ok:true,message:"admin bvc" })
-})
+router.get("/admin-auth", requireLogin, isAdmin, (req, res) => {
+  console.log("testing auth");
+  console.log(req.user);
+  res.status(200).send({
+    ok: true,
+    message: "admin bvc",
+  });
+});
 
+//update-profile
+router.put("/profile", requireLogin, updateProfileController);
 
 export default router;
