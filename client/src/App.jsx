@@ -23,12 +23,14 @@ import Search from "./pages/Search";
 import ProductDetails from "./pages/ProductDetails";
 import Categories from "./components/Categories";
 import CategoryProduct from "./components/CategoryProduct";
+import Cart from "./pages/Cart";
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="/product/:slug" element={<ProductDetails />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/category/:slug" element={<CategoryProduct />} />

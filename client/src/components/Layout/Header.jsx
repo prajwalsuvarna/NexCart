@@ -1,13 +1,16 @@
 import React from "react";
+import {Badge,Avatar} from "antd"
 import { Link } from "react-router-dom";
 import { GiShoppingCart } from "react-icons/gi";
 import { useAuth } from "../../contexts/auth";
 import { toast } from "react-hot-toast";
 import SearchInput from "../Form/SearchInput.jsx";
 import { useCategory } from "../../hooks/useCategory";
+import { useCart } from "../../contexts/cart";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
+  const [cart, setCart] = useCart();
   const categories = useCategory();
   console.log(categories, "categories all")
 
@@ -112,9 +115,14 @@ const Header = () => {
                 </Link>
               </>
             )}
-            <Link to="/" className="mr-5 hover:text-gray-900">
-              Cart(0)
+              <Badge count={cart?.length} showZero>
+      <Avatar shape="square" size="large" >
+      <Link to="/cart" className="mr-5 text-4xl hover:text-gray-900">
+             <GiShoppingCart/>
             </Link>
+        </Avatar>
+    </Badge>
+           
           </nav>
           <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
             Button
