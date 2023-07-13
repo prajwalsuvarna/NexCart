@@ -1,4 +1,5 @@
 import productModel from "../models/productModel.js";
+import categoryModel from "../models/categoryModel.js";
 import slugify from "slugify";
 import fs from "fs";
 
@@ -241,7 +242,7 @@ export const searchProductController = async (req, res) => {
         ],
       })
       .select("-photo");
-    return res.json(products)
+    return res.json(products);
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -253,28 +254,53 @@ export const searchProductController = async (req, res) => {
 };
 
 //get related products
-export const  getrelatedProductController = async (req, res) => {
-  try{
-    const {pid,cid}=req.params
-    const related = await productModel.find({
-      _id: {$ne: pid},
-      category: cid
-    })
-    .limit(3)
-    .populate('category')
-    .select('-photo')
+export const getrelatedProductController = async (req, res) => {
+  try {
+    const { pid, cid } = req.params;
+    const related = await productModel
+      .find({
+        _id: { $ne: pid },
+        category: cid,
+      })
+      .limit(3)
+      .populate("category")
+      .select("-photo");
     res.status(200).send({
       success: true,
       message: "related product successsfull",
       related,
     });
-  }catch(error){
+  } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
       error,
       message: "Error in getting related product",
     });
-
   }
-}
+};
+
+//get product by category
+export const productCategoryController = async (req, res) => {
+  try {
+    const slug = req.params.slug;
+    const category = await categoryModel.findOne({ slug });
+    const products = await productModel
+      .find({ category })
+      .populate("category")
+      .select("-photo");
+    res.status(200).send({
+      success: true,
+      message: "related product successsfull",
+      products,
+      category
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      error,
+      message: "Error in getting related product",
+    });
+  }
+};

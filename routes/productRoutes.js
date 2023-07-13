@@ -11,7 +11,8 @@ import {
   productCountController,
   productListController,
   searchProductController,
-  getrelatedProductController
+  getrelatedProductController,
+  productCategoryController
 } from "../controllers/productController.js";
 import formidable from "express-formidable";
 const router = express.Router();
@@ -53,4 +54,6 @@ router.post("/search-product/:keyword", searchProductController);
 //get similar products
 router.get("/related-products/:pid/:cid", getrelatedProductController);
 
+//get products by category
+router.get("/products-category/:slug", productCategoryController);
 export default router;
