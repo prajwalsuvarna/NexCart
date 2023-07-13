@@ -75,6 +75,43 @@ const Cart = () => {
             <h1>Cart Summary</h1>
             <p>total|checkout|Payment</p>
             <p>Total :{totalPrice()}</p>
+
+            {auth?.user?.address ? (
+              <>
+                <div className="mb-3">
+                  <h4 className="text-2xl">Current Address</h4>
+                  <h5 className="mb-2" >{auth?.user?.address}</h5>
+                  <button
+                    className="px-3 py-2 text-white rounded-md text-center bg-yellow-500"
+                    onClick={() => navigate("/dashboard/u/profile")}
+                  >
+                    Update Address
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="mb-3">
+                {auth?.token ? (
+                  <button
+                  className="px-3 py-2 text-white rounded-md text-center bg-yellow-500"
+                    onClick={() => navigate("/dashboard/u/profile")}
+                  >
+                    Update Address
+                  </button>
+                ) : (
+                  <button
+                  className="px-3 py-2 text-white rounded-md text-center bg-red-500"
+                    onClick={() =>
+                      navigate("/login", {
+                        state: "/cart",
+                      })
+                    }
+                  >
+                    Plase Login to checkout
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
