@@ -160,7 +160,6 @@ export const updateProfileController = async (req, res) => {
         message: "Password is required and six characthers long",
       });
     }
-    console.log(req.user, "inside the controller");
     const hashedPassword = password ? await hashPassword(password) : undefined;
     const updatedUser = await userModel.findByIdAndUpdate(req.user.id, {
       name: name || user.name,
@@ -192,6 +191,52 @@ export const getOrdersController = async (req, res) => {
       })
       .populate("products", "-photo")
       .populate("buyer", "name");
+    res.status(200).send({
+      success: true,
+      message: "orders fetched successfully",
+      orders,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({
+      success: false,
+      message: "error in getting orders",
+      error: e.message,
+    });
+  }
+};
+
+export const getAllOrdersController = async (req, res) => {
+  try {
+    const orders = await orderModel
+      .find({})
+      .populate("products", "-photo")
+      .populate("buyer", "name");
+    res.status(200).send({
+      success: true,
+      message: "orders fetched successfully",
+      orders,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({
+      success: false,
+      message: "error in getting orders",
+      error: e.message,
+    });
+  }
+};
+
+//order status
+export const orderStatusController = async (req, res) => {
+  try {
+    const { status } = req.body;
+    const { oid } = req.params;
+    const orders = await orderModel.findByIdAndUpdate(
+      oid,
+      { status },
+      { new: true }
+    );
     res.status(200).send({
       success: true,
       message: "orders fetched successfully",

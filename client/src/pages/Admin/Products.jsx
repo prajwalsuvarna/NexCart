@@ -23,7 +23,7 @@ const Products = () => {
       );
       const data = await res.json();
       setProducts(data.products);
-      console.log(data);
+     
     } catch (err) {
       console.log(err);
       toast.error("Error in getting all products");
@@ -31,8 +31,7 @@ const Products = () => {
   };
   useEffect(() => {
     getAllProducts();
-  }, []);
-  console.log(products);
+  }, [])
 
   return (
     <Layout title="Admin Dashboard | All Products">

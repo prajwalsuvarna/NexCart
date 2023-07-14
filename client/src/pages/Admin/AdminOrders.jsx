@@ -1,16 +1,28 @@
 import React, { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import Layout from "../../components/Layout/Layout";
-import UserMenu from "../../components/Layout/UserMenu";
+import AdminMenu from "../../components/Layout/AdminMenu";
 import { useAuth } from "../../contexts/auth";
 import moment from "moment";
+import { Select } from "antd";
+const { Option } = Select;
 
-const Orders = () => {
-  const [auth, setAuth] = useAuth();
+const AdminOrders = () => {
+  const [status, setStatus] = useState([
+    "pending",
+    "processing",
+    "shipped",
+    "delivered",
+    "cancelled",
+  ]);
+  const [changeStatus, setChangeStatus] = useState("");
   const [orders, setOrders] = useState([]);
+  const [auth, setAuth] = useAuth();
+
   const getOrders = async () => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/auth/orders`,
+        `${import.meta.env.VITE_API_URL}/api/auth/all-orders`,
         {
           method: "GET",
           headers: {
@@ -29,16 +41,42 @@ const Orders = () => {
     if (auth?.token) getOrders();
   }, [auth?.token]);
 
-  return (
-    <Layout title="User | Orders">
-      <div class="grid grid-cols-3 grid-flow-col gap-4">
-        <div class="row-span-1 ">
-          <UserMenu />
-        </div>
-        <div class="col-span-2 ">
-          <h1 className="text-5xl">Orders</h1>
-          {/* {JSON.stringify(orders,null,4)} */}
+  //handle change status
+  const handleChangeStatus = async (value, orderId) => {
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/auth/order-status/${orderId}`,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `${auth.token}`,
+          },
+          body: JSON.stringify({
+            status: value,
+          }),
+        }
+      );
+      const data = await res.json();
+      if (res.status === 400 || !data) {
+        toast.error(data.message);
+      } else {
+        toast.success("Status Updated Successfully");
+        getOrders();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  return (
+    <Layout title="Admin Orders">
+      <div class="grid grid-cols-5">
+        <div class="col-span-">
+          <AdminMenu />
+        </div>
+        <div class="col-span-4">
           {orders?.map((o, i) => {
             return (
               <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -73,8 +111,22 @@ const Orders = () => {
                       >
                         {i + 1}
                       </th>
-                      <td class="px-6 py-4">{o?.status}</td>
-                      <td class="px-6 py-4">{o?.buyer.name}</td>
+                      <td class="px-6 py-4">
+                        <Select
+                          bordered={false}
+                          onChange={(value) => {
+                            handleChangeStatus(value, o?._id);
+                          }}
+                          defaultValue={o?.status}
+                        >
+                          {status?.map((s, i) => (
+                            <Option key={i} value={s}>
+                              {s}
+                            </Option>
+                          ))}
+                        </Select>
+                      </td>
+                      <td class="px-6 py-4">{o?.buyer?.name}</td>
                       <td class="px-6 py-4">
                         {moment(o?.createdAt).fromNow()}
                       </td>
@@ -86,20 +138,20 @@ const Orders = () => {
                   </tbody>
                 </table>
                 <div>
-                {o?.products?.map((item, index) => (
-              <div key={index} className="border bg-gray-100 rounded-md">
-                <img
-                  className="p-4 h-36 w-36 rounded-t-lg"
-                  src={`${
-                    import.meta.env.VITE_API_URL
-                  }/api/product/product-photo/${item._id}`}
-                  alt="product image"
-                />
-                <h1>{item?.name}</h1>
-                <h1>{item?.price}</h1>
-              </div>
-            ))}
-                  </div>
+                  {o?.products?.map((item, index) => (
+                    <div key={index} className="border bg-gray-100 rounded-md">
+                      <img
+                        className="p-4 h-36 w-36 rounded-t-lg"
+                        src={`${
+                          import.meta.env.VITE_API_URL
+                        }/api/product/product-photo/${item._id}`}
+                        alt="product image"
+                      />
+                      <h1>{item?.name}</h1>
+                      <h1>{item?.price}</h1>
+                    </div>
+                  ))}
+                </div>
               </div>
             );
           })}
@@ -109,4 +161,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default AdminOrders;

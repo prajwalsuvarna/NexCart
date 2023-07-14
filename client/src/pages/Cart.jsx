@@ -45,7 +45,6 @@ const Cart = () => {
       cart.map((item) => {
         total = total + item.price;
       });
-      console.log(total);
       return total.toLocaleString("en-US", {
         style: "currency",
         currency: "USD",
@@ -54,7 +53,6 @@ const Cart = () => {
       console.log(error);
     }
   };
-  console.log("ClientToken", clientToken);
 
   useEffect(() => {
     getToken();
@@ -72,7 +70,6 @@ const Cart = () => {
     try{
       setLoading(true)
       const {nonce}=await instance.requestPaymentMethod()
-      console.log(nonce)
       const res=await fetch(`${import.meta.env.VITE_API_URL}/api/product/braintree/payment`,{
         method:"POST",
         headers: {
@@ -87,7 +84,6 @@ const Cart = () => {
       setCart([])
       navigate("/dashboard/u/orders")
       toast.success("Payment Successfull")
-      console.log(data)
 
 
     }catch(error){

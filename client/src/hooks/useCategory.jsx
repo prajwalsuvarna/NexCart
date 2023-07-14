@@ -15,7 +15,6 @@ export const useCategory = () => {
         }
       );
       const data = await res.json();
-      console.log(data,"inside hook");
       setCategories(data?.catgeory);
     } catch (error) {
       console.log(error);

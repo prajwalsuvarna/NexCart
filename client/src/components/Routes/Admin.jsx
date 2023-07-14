@@ -8,7 +8,6 @@ export default function AdminRoute(){
     const [ok,setOk] = useState(false)
     useEffect(()=>{
      const authCheck=async()=>{
-        // console.log(auth?.token)
          const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/admin-auth`,{
                 method:"GET",
                 headers:{
@@ -17,15 +16,10 @@ export default function AdminRoute(){
                 },
                 credentials:"include"
             })
-            console.log(res)
-            console.log("checking.....")
             const body=await res.json()
-            console.log(body)
             if(res.ok){
-                console.log('Im set')
                 setOk(true)
             }else{
-                console.log('Im not set')
              setOk(false)
          }
      }

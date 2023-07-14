@@ -23,8 +23,6 @@ export const createProductController = async (req, res) => {
       req.fields;
     const { photo } = req.files;
     // validations
-    console.log(req.fields);
-    console.log(req.files);
     if (!name || !description || !price || !category || !quantity || !photo)
       return res.status(500).send({ error: "Enter all the feilds" });
     if (photo.size > 1000000)
@@ -98,7 +96,7 @@ export const getAllProductController = async (req, res) => {
 };
 export const updateProductController = async (req, res) => {
   try {
-    console.log(req.fields);
+    (req.fields);
     const { name, description, price, category, quantity, shipping } =
       req.fields;
     const { photo } = req.files;

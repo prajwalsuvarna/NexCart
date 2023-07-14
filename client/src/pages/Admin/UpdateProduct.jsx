@@ -20,8 +20,6 @@ const UpdateProduct = () => {
   const [shipping, setShipping] = useState("");
   const [category, setCategory] = useState(null);
   const [id, setId] = useState("");
-  console.log("Curr categ");
-  console.log(category);
   const { slug } = useParams();
 
   //get single product
@@ -38,7 +36,6 @@ const UpdateProduct = () => {
         }
       );
       const data = await res.json();
-      console.log(data);
       setId(data["product"]._id);
       setName(data["product"].name);
       setDescription(data["product"].description);
@@ -77,7 +74,6 @@ const UpdateProduct = () => {
     e.preventDefault();
 
     try {
-      console.log(name, description, price, quantity, shipping, category);
       const productData = new FormData();
       productData.append("name", name);
       productData.append("description", description);
@@ -86,7 +82,6 @@ const UpdateProduct = () => {
       photo && productData.append("photo", photo);
       productData.append("category", category);
       productData.append("shipping", shipping);
-      console.log(productData);
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/api/product/update-product/${id}`,
         {
@@ -98,9 +93,7 @@ const UpdateProduct = () => {
           body: productData,
         }
       );
-      console.log(res);
       const data = await res.json();
-      console.log(data);
       if (res.ok) {
         toast.promise(
           // Promise to wait for
@@ -147,9 +140,8 @@ const UpdateProduct = () => {
           credentials: "include",
         }
       );
-      console.log(res);
       const data = await res.json();
-      console.log(data);
+      
       if (res.ok) {
         toast.promise(
           // Promise to wait for

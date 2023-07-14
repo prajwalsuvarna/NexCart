@@ -18,8 +18,7 @@ const ProductDetails = () => {
           method: "GET",
         }
       );
-      const data = await res.json();
-      console.log(data);
+      const data = await res.json()
       setRelatedProducts(data["related"]);
     } catch (error) {
       console.log(error);
@@ -39,7 +38,6 @@ const ProductDetails = () => {
         }
       );
       const data = await res.json();
-      console.log(data);
       setProduct(data["product"]);
       await getRelatedProducts(
         data["product"]._id,

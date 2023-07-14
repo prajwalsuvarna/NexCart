@@ -18,7 +18,6 @@ const HomePage = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
-  console.log("page initial", page);
 
   //get total
   const getTotal = async () => {
@@ -38,11 +37,9 @@ const HomePage = () => {
       console.log(error);
     }
   };
-  console.log("total", total);
   const getAllProducts = async () => {
     try {
-      setLoading(true);
-      console.log("page", page);
+      setLoading(true)
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/api/product/product-list/${page}`,
         {
@@ -54,7 +51,6 @@ const HomePage = () => {
       );
       const data = await res.json();
       setLoading(false);
-      console.log(data);
       setProducts(data["products"]);
     } catch (error) {
       setLoading(false);
@@ -119,8 +115,7 @@ const HomePage = () => {
       );
 
       const data = await res.json();
-      setLoading(false);
-      console.log(page);
+      setLoading(false)
       setProducts((prevProducts) => [...prevProducts, ...data["products"]]);
     } catch (error) {
       console.log(error);
@@ -141,8 +136,7 @@ const HomePage = () => {
         }
       );
 
-      const data = await res.json();
-      console.log(data["products"]);
+      const data = await res.json()
       setProducts(data["products"]);
     } catch (error) {
       console.log(error);

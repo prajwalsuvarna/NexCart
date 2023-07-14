@@ -33,8 +33,7 @@ const Profile = () => {
           }),
         }
       );
-      const data = await res.json();
-      console.log(data);
+      const data = await res.json()
       if (res.status === 400 || !data) {
         toast.error(data.message);
       } else {

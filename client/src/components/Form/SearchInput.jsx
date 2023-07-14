@@ -5,12 +5,9 @@ import { useSearch } from "../../contexts/search";
 const SearchInput = () => {
   const [search, setSearch] = useSearch();
   const Navigate = useNavigate();
-  const test=()=>{
-    console.log("searching", search);
-  }
+ 
 
   const handleSubmit = async (e) => {
-    console.log("searching", search);
     e.preventDefault();
     try {
       const res = await fetch(
@@ -24,10 +21,9 @@ const SearchInput = () => {
           body: JSON.stringify({ keyword: search.keyword }),
         }
       );
-      const data = await res.json();
-      console.log(data);
+      const data = await res.json()
       setSearch({ ...search, results: data });
-      Navigate("/dashboard/search");
+      Navigate("/search");
     } catch (error) {
       console.log(error);
     }

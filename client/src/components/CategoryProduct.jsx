@@ -20,8 +20,6 @@ const CategoryProduct = () => {
         }
       );
       const data = await res.json();
-      console.log(data);
-      console.log("lol", data["products"]);
       setProducts(data["products"]);
       setCategory(data["category"]);
     } catch (error) {

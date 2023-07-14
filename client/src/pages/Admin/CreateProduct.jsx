@@ -44,7 +44,6 @@ const CreateProduct = () => {
     e.preventDefault();
 
     try {
-      console.log(name, description, price, quantity, shipping, category);
       const productData = new FormData();
       productData.append("name", name);
       productData.append("description", description);
@@ -52,7 +51,6 @@ const CreateProduct = () => {
       productData.append("quantity", quantity);
       productData.append("photo", photo);
       productData.append("category", category);
-      console.log(productData);
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/api/product/create-product`,
         {
@@ -64,9 +62,9 @@ const CreateProduct = () => {
           body: productData,
         }
       );
-      console.log(res);
+   
       const data = await res.json();
-      console.log(data);
+ 
       if (res.ok) {
         toast.success(`${name} is created`);
         Navigate("/dashboard/admin/products");

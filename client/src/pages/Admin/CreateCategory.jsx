@@ -32,8 +32,7 @@ const CreateCategory = () => {
           body: JSON.stringify({ name }),
         }
       );
-      const data = await res.json();
-      console.log(data);
+      const data = await res.json()
       if (res.ok) {
         toast.success(`${name} is created`);
         setName("");
@@ -65,8 +64,7 @@ const CreateCategory = () => {
           body: JSON.stringify({ name: updatedName }),
         }
       );
-      const data = await res.json();
-      console.log(data);
+      const data = await res.json()
       if (res.ok) {
         toast.success(`Updated successfully`);
         setName("");
@@ -120,7 +118,6 @@ const CreateCategory = () => {
         }
       );
       const data = await res.json();
-      console.log(data);
       if (res.ok) {
         toast.success(`Deleted successfully`);
         getAllCategories();
