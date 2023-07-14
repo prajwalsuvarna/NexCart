@@ -4,7 +4,6 @@ import { useCart } from "../contexts/cart";
 import { useAuth } from "../contexts/auth";
 import { useNavigate } from "react-router-dom";
 import DropIn from "braintree-web-drop-in-react";
-import { set } from "mongoose";
 import  toast  from "react-hot-toast";
 
 const Cart = () => {
