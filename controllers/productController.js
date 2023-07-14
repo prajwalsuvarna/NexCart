@@ -1,7 +1,21 @@
 import productModel from "../models/productModel.js";
 import categoryModel from "../models/categoryModel.js";
+import orderModel from "../models/orderModel.js";
 import slugify from "slugify";
 import fs from "fs";
+import braintree from "braintree";
+import dotenv from "dotenv";
+//configuring dotenv
+dotenv.config();
+
+//braintree config
+
+var gateway = new braintree.BraintreeGateway({
+  environment: braintree.Environment.Sandbox,
+  merchantId: process.env.BRAINTREE_MERCHANT_ID,
+  publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+  privateKey: process.env.BRAINTREE_PRIVATE_KEY,
+});
 
 export const createProductController = async (req, res) => {
   try {
@@ -293,7 +307,7 @@ export const productCategoryController = async (req, res) => {
       success: true,
       message: "related product successsfull",
       products,
-      category
+      category,
     });
   } catch (error) {
     console.log(error);
@@ -301,6 +315,72 @@ export const productCategoryController = async (req, res) => {
       success: false,
       error,
       message: "Error in getting related product",
+    });
+  }
+};
+
+//braintree payment implementation
+export const braintreeTokenController = async (req, res) => {
+  try {
+    gateway.clientToken.generate({}, (err, response) => {
+      res.send(response);
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      error,
+      message: "Error in generating braintree token",
+    });
+  }
+};
+
+//payment
+export const braintreePaymentController = async (req, res) => {
+  try {
+    const { cart, nonce } = req.body;
+    let total = 0;
+    cart.forEach((p) => {
+      total += p.price;
+    });
+    let newTransaction = gateway.transaction.sale(
+      {
+        amount: total,
+        paymentMethodNonce: nonce,
+        options: {
+          submitForSettlement: true,
+        },
+      },
+      (error, result) => {
+        if (error) {
+          res.status(500).json(error);
+        } else {
+          const order = new orderModel({
+            products: cart,
+            payment: result,
+            buyer: req.user._id,
+            status: "processing",
+          }).save();
+          res.json({ ok: true });
+        }
+      }
+    );
+
+    // gateway.transaction.sale({
+    //   amount: "10.00",
+    //   paymentMethodNonce: nonceFromTheClient,
+    //   deviceData: deviceDataFromTheClient,
+    //   options: {
+    //     submitForSettlement: true
+    //   }
+    // }, (err, result) => {
+    // });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      error,
+      message: "Error in generating braintree token",
     });
   }
 };
