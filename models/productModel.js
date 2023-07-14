@@ -38,4 +38,4 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 ); //new user creation time will be added
 
-export default mongoose.model("Products", productSchema)
+export default mongoose.model("Product", productSchema)

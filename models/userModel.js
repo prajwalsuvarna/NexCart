@@ -33,4 +33,4 @@ const userSchema = new mongoose.Schema({
     }
 },{timestamps:true});//new user creation time will be added
 
-export default mongoose.model("users", userSchema);
+export default mongoose.model("User", userSchema);

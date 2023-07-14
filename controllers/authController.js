@@ -1,4 +1,5 @@
 import userModel from "../models/userModel.js";
+import orderModel from "../models/orderModel.js";
 import { comparePassword, hashPassword } from "../helpers/authHelper.js";
 import jwt from "jsonwebtoken";
 
@@ -159,7 +160,7 @@ export const updateProfileController = async (req, res) => {
         message: "Password is required and six characthers long",
       });
     }
-    console.log(req.user,"inside the controller")
+    console.log(req.user, "inside the controller");
     const hashedPassword = password ? await hashPassword(password) : undefined;
     const updatedUser = await userModel.findByIdAndUpdate(req.user.id, {
       name: name || user.name,
@@ -179,6 +180,29 @@ export const updateProfileController = async (req, res) => {
       success: false,
       message: "Update profile error",
       error: error.message,
+    });
+  }
+};
+
+export const getOrdersController = async (req, res) => {
+  try {
+    const orders = await orderModel
+      .find({
+        buyer: req.user.id,
+      })
+      .populate("products", "-photo")
+      .populate("buyer", "name");
+    res.status(200).send({
+      success: true,
+      message: "orders fetched successfully",
+      orders,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({
+      success: false,
+      message: "error in getting orders",
+      error: e.message,
     });
   }
 };
