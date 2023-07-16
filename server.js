@@ -20,8 +20,18 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 
 
-app.use(express.json()); //enable json parsing in req and response
+app.use(express.json()); // Enable JSON parsing in req and response
 app.use(morgan("dev"));
+
+app.use(
+  cors({
+    origin: [
+      "http://127.0.0.1:5173",
+      "https://nex-ecom.vercel.app",
+    ],
+    credentials: true,
+  })
+);
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', 'https://nex-ecom.vercel.app');
@@ -29,17 +39,6 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
 });
-//middleware
-app.use(
-  cors({
-    origin: [
-      "http://127.0.0.1:5173",
-      "https://nex-ecom.vercel.app/",
-      "https://nex-ecom.vercel.app/",
-    ],
-    credentials: true,
-  })
-);
 
 //routes
 
