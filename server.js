@@ -33,6 +33,13 @@ app.use(
 app.use(express.json()); //enable json parsing in req and response
 app.use(morgan("dev"));
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://nex-ecom.vercel.app');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
 
 //routes
 
