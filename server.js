@@ -7,10 +7,7 @@ import authRoutes from "./routes/authRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import cors from "cors";
-const corsOptions = {
-  origin: "http://127.0.0.1:5173",
-  credentials: true,
-};
+
 
 //configuring dotenv
 dotenv.config();
@@ -23,14 +20,19 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 
 //middleware
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: [
+      "http://127.0.0.1:5173",
+      "https://nex-ecom.vercel.app/",
+      "https://nex-ecom.vercel.app/",
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json()); //enable json parsing in req and response
 app.use(morgan("dev"));
-// app.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     next();
-//   });
+
 
 //routes
 
