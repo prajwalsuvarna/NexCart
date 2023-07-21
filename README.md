@@ -21,7 +21,7 @@ Full-Stack E-Commerce App using MERN Stack
 **Frontend:**&nbsp;
 ![Vercel](https://img.shields.io/badge/Vercel-430098?style=for-the-badge&logo=vercel&logoColor=white)&nbsp;
 **Backend:**&nbsp;
-![Render](https://img.shields.io/badge/Render-430098?style=for-the-badge&logo=vercel&logoColor=white)
+![Render](https://img.shields.io/badge/onrender-430098?style=for-the-badge&logo=vercel&logoColor=white)
 
 
 
