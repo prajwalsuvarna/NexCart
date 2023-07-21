@@ -18,9 +18,9 @@ Full-Stack E-Commerce App using MERN Stack
 ![jwt](	https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)&nbsp;
 
 **Deployed On:**
-### Frontend
+**Frontend:**
 ![Vercel](https://img.shields.io/badge/Vercel-430098?style=for-the-badge&logo=vercel&logoColor=white)
-### Backend
+**Backend:**
 ![Render](https://img.shields.io/badge/Render-430098?style=for-the-badge&logo=vercel&logoColor=white)
 
 
