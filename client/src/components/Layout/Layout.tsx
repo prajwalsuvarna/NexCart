@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
-import Header from "../Layout/Header";
-import Footer from "../Layout/Footer";
+import Header from "./Header";
+import Footer from "./Footer";
 import { Helmet } from "react-helmet";
 import { Toaster } from "react-hot-toast";
 

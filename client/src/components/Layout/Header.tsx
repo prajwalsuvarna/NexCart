@@ -5,7 +5,7 @@ import { GiShoppingCart } from "react-icons/gi";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useAuth } from "../../contexts/auth";
 import { toast } from "react-hot-toast";
-import SearchInput from "../Form/SearchInput.jsx";
+import SearchInput from "../Form/SearchInput.js";
 import { useCategory } from "../../hooks/useCategory";
 import { useCart } from "../../contexts/cart";
 import DropDown from "../Form/CategoryDropDown";
