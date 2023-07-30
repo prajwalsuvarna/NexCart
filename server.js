@@ -25,20 +25,21 @@ app.use(morgan("dev"));
 
 app.use(
   cors({
-    origin: [
-      "http://127.0.0.1:5173",
-      "https://nex-ecom.vercel.app",
-    ],
+    // origin: [
+    //   "http://127.0.0.1:5173",
+    //   "https://nex-ecom.vercel.app",
+    // ],
+    origin:"http://127.0.0.1:5173",
     credentials: true,
   })
 );
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'https://nex-ecom.vercel.app');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', 'https://nex-ecom.vercel.app');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//   next();
+// });
 
 //routes
 
