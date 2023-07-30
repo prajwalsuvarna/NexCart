@@ -144,10 +144,10 @@ const HomePage = () => {
   };
   return (
     <Layout title="Home | NexCom">
-      <div className="grid grid-cols-5 gap-4 min-h-screen">
-        <div className="col-span-1">
-          <h1 className="text-5xl">Filter By category</h1>
-          <div className="flex flex-col">
+      <div className="md:grid grid-rows-2  md:grid-cols-5 md:grid-rows-1 ">
+        <div className="lg:col-span-1 md:col-span-2 p-3">
+          <h1 className="text-2xl  p-3 text-center">Filter By category</h1>
+          <div className="flex   flex-wrap">
             {categories?.map((category, index) => (
               <Checkbox
                 key={index}
@@ -160,8 +160,8 @@ const HomePage = () => {
             ))}
           </div>
 
-          <h1 className="text-5xl">Filter By price</h1>
-          <div className="flex flex-col">
+          <h1 className="text-2xl p-3 text-center">Filter By price</h1>
+          <div className="flex  flex-col">
             <Radio.Group
               value={radio}
               onChange={(e) => setRadio(e.target.value)}
@@ -174,9 +174,9 @@ const HomePage = () => {
             </Radio.Group>
           </div>
 
-          <div className="flex flex-col">
+          <div className=" mt-5 flex flex-col justify-center items-center">
             <button
-              className="my-2  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="my-2  w-32 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               onClick={() => {
                 window.location.reload();
               }}
@@ -185,31 +185,35 @@ const HomePage = () => {
             </button>
           </div>
         </div>
-        <div className="col-span-4 ">
-          <h1 className="text-5xl">All Products</h1>
-          <div className="flex flex-wrap  border-2 border-red-300">
+
+
+
+        <div className="  md:col-span-3  mt-3 lg:col-span-4  ">
+          <h1 className="text-5xl text-center">All Products</h1>
+          <div className="flex flex-col md:flex-row justify-center items-center flex-wrap ">
             {products?.map((product, index) => (
               <div
                 key={index}
-                className=" m-3 w-56 h-[400px] bg-white border rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 border-red-500"
+                className=" m-3 w-64 h-full bg-white border rounded-lg  dark:bg-gray-800 dark:border-gray-700 shadow-md"
               >
                 <img
-                  className="p-4 h-36 w-36 rounded-t-lg"
+                  className="p-4 h-56 w-full rounded-t-lg"
                   src={`${
                     import.meta.env.VITE_API_URL
                   }/api/product/product-photo/${product._id}`}
                   alt="product image"
                 />
-                <div className="px-5   pb-2">
-                  <div className=" border-2  flex flex-col flex-wrap items-center mb-10 justify-end">
+                <div className="px-5 mt-5  ">
+                  <div className="  flex flex-col flex-wrap items-center mb-5 justify-end">
                     <span className="text-3xl flex justify-between font-bold text-gray-900 dark:text-white">
                       {product.price}
                       {product.name}
                     </span>
                     {product.description}
-                    <button
+                   <div className="flex ">
+                   <button
                       onClick={() => navigate(`/product/${product.slug}`)}
-                      className=" my-2  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      className="  mt-5 mr-1 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-2 py-1 text-center dark:bg-yellow-500 dark:hover:bg-yellow-600 dark:focus:ring-yellow-500"
                     >
                       More Details
                     </button>
@@ -222,17 +226,20 @@ const HomePage = () => {
                         );
                         toast.success("Product added to cart");
                       }}
-                      className="my-2  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      className="mt-5  text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                     >
                       Add to cart
                     </button>
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
+          
           </div>
-          <div className="m-2 p-3">
-            {products && products.length < total && (
+          <div className="m-2 p-3  text-center">
+            {products && (products.length===0) && (<p>0  Products Found :/</p>)}
+            {products && (products.length!==0) && (products.length < total) && (
               <button
                 className="my-2  text-white bg-yellow-300 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-400 dark:hover:bg-yellow-400 dark:focus:ring-yellow-400"
                 onClick={(e) => {
@@ -240,6 +247,7 @@ const HomePage = () => {
                   setPage(page + 1);
                 }}
               >
+                {/* {JSON.stringify(products) } */}
                 {loading ? "Loading..." : "Load More"}
               </button>
             )}
