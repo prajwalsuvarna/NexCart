@@ -135,20 +135,20 @@ const CreateCategory = () => {
   }, []);
 
   return (
-    <Layout title="Admin Dashboard | category">
-      <div className="grid grid-rows-3 grid-flow-col gap-4">
-        <div className="row-span-3 ">
-          <AdminMenu />
-        </div>
-        <div className="col-span-2 ">
-          <h1 className="text-5xl">Catgeory</h1>
+    
+
+<Layout title="Admin Dashboard | Category">
+<div class="md:grid grid-cols-5 gap-4">
+  <div class="md:col-span-2 p-3">
+    <AdminMenu />
+  </div>
+  <div class="md:col-span-3 p-3 mt-4 shadow-md bg-white rounded-lg">
+  <h1 className="text-5xl text-center">Catgeory</h1>
           <CategoryFrom
             handleSubmit={handleSubmit}
             value={name}
             setValue={setName}
           />
-        </div>
-        <div className="row-span-2 col-span-2 ">
           <div className="relative overflow-x-auto">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -156,7 +156,7 @@ const CreateCategory = () => {
                   <th scope="col" className="px-6 py-3">
                     Category
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" className="px-6 text-center py-3">
                     Action
                   </th>
                 </tr>
@@ -166,17 +166,17 @@ const CreateCategory = () => {
                   categories.map((category, index) => (
                     <tr
                       key={index}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                      className="  bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                     >
                       <td
                         scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        className="px-1 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
                         {category.name}
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 flex justify-center  py-4">
                         <button
-                          className="px-2 mx-2 py-1 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-gray-700 rounded-md dark:bg-gray-600 hover:bg-gray-500 dark:hover:bg-gray-500 focus:outline-none focus:bg-gray-500 dark:focus:bg-gray-500"
+                          className="px-2 mx-2 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-gray-700 rounded-md dark:bg-gray-600 hover:bg-gray-500 dark:hover:bg-gray-500 focus:outline-none focus:bg-gray-500 dark:focus:bg-gray-500"
                           onClick={() => {
                             setVisible(true);
                             setUpdatedName(category.name);
@@ -189,7 +189,7 @@ const CreateCategory = () => {
                           onClick={() => {
                             handleDelete(category._id);
                           }}
-                          className="px-2 mx-2 py-1 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-red-700 rounded-md dark:bg-red-600 hover:bg-red-500 dark:hover:bg-red-500 focus:outline-none focus:bg-red-500 dark:focus:bg-red-500"
+                          className=" px-2 mx-2 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-red-700 rounded-md dark:bg-red-600 hover:bg-red-500 dark:hover:bg-red-500 focus:outline-none focus:bg-red-500 dark:focus:bg-red-500"
                         >
                           Delete
                         </button>
@@ -211,10 +211,16 @@ const CreateCategory = () => {
               handleSubmit={handleUpdate}
             />
           </Modal>
-        </div>
-      </div>
-    </Layout>
+        
+
+
+  </div>
+</div>
+</Layout>
+
   );
 };
 
 export default CreateCategory;
+
+

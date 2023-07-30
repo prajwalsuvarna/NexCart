@@ -62,9 +62,9 @@ const CreateProduct = () => {
           body: productData,
         }
       );
-   
+
       const data = await res.json();
- 
+
       if (res.ok) {
         toast.success(`${name} is created`);
         Navigate("/dashboard/admin/products");
@@ -91,112 +91,110 @@ const CreateProduct = () => {
 
   return (
     <Layout title="Admin Dashboard | Product">
-      <div className="grid grid-rows-3 grid-flow-col gap-4">
-        <div className="row-span-3 col-span-1 ">
+      <div class="md:grid grid-cols-5 gap-4">
+        <div class="md:col-span-2 p-3">
           <AdminMenu />
         </div>
-        <div className="row-span-3 col-span-2 ">
-          <h1 className="text-5xl mb-3 ">Product</h1>
-          <Select
-            bordered={false}
-            placeholder="Select a catehory"
-            size="large"
-            showSearch
-            className=" px-3 w-full border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-            onChange={(value) => {
-              setCategory(value);
-            }}
-          >
-            {categories?.map((category) => (
-              <Select.Option key={category._id} value={category._id}>
-                {category.name}
-              </Select.Option>
-            ))}
-          </Select>
-          <div className="flex flex-col ">
-            <label className="py-3 w-36 my-3 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-500 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-              {photo && photo.name ? photo.name : "Upload Images"}
+        <div class="md:col-span-3 p-3 mt-4 shadow-md bg-white rounded-lg">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="row-span-3 col-span-2 bg-white p-5 rounded-lg shadow-md">
+              <h1 className="text-3xl font-semibold mb-4">Add New Product</h1>
+
+              <Select
+                bordered={false}
+                placeholder="Select a category"
+                size="large"
+                showSearch
+                className="px-3 mb-5 w-full border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent mb-4"
+                onChange={(value) => {
+                  setCategory(value);
+                }}
+              >
+                {categories?.map((category) => (
+                  <Select.Option key={category._id} value={category._id}>
+                    {category.name}
+                  </Select.Option>
+                ))}
+              </Select>
+
+              <label className="py-3 w-36 my-10 px-5 text-sm font-medium text-gray-900 bg-white rounded-full border border-gray-500 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 cursor-pointer">
+                {photo && photo.name ? photo.name : "Upload Images"}
+                <input
+                  type="file"
+                  name="photo"
+                  accept="image/*"
+                  onChange={(e) => setPhoto(e.target.files[0])}
+                  hidden
+                />
+              </label>
+
+              {photo && (
+                <div className="flex justify-center my-3">
+                  <img
+                    src={URL.createObjectURL(photo)}
+                    alt="product photo"
+                    width="200"
+                    height="200"
+                    className="rounded-md"
+                  />
+                </div>
+              )}
+
               <input
-                type="file"
-                name="photo"
-                accept="image/*"
-                onChange={(e) => setPhoto(e.target.files[0])}
-                hidden
+                type="text"
+                placeholder="Name"
+                className="px-3 mt-5 my-3 w-full border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
-            </label>
-          </div>
-          <div className="my-3 flex justify-center">
-            {photo && (
-              <img
-                src={URL.createObjectURL(photo)}
-                alt="productphoyo"
-                width="200"
-                height="200"
-                className=""
+
+              <input
+                type="text"
+                placeholder="Description"
+                className="px-3 py-3 my-3 w-full border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
               />
-            )}
-          </div>
-          <div className="flex flex-col my-3 mx-2">
-            <input
-              type="text"
-              placeholder="Name"
-              className="px-3 py-3 my-3 w-full border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-          <div className="flex flex-col my-3 mx-2">
-            <input
-              type="text"
-              placeholder="Description"
-              className="px-3 py-3 my-3 w-full border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
-          <div className="flex flex-col my-3 mx-2">
-            <input
-              type="number"
-              placeholder="Price"
-              className="px-3 py-3 my-3 w-full border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-            />
-          </div>
-          <div className="flex flex-col my-3 mx-2">
-            <input
-              type="number"
-              placeholder="Quantity"
-              className="px-3 py-3 my-3 w-full border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-            />
-          </div>
-          <div className="flex flex-col my-3 mx-2">
-            <Select
-              bordered={false}
-              placeholder="Shipping"
-              size="large"
-              showSearch
-              className=" px-3 w-full border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-              onChange={(value) => {
-                setShipping(value);
-              }}
-            >
-              <Select.Option value="Yes">Yes</Select.Option>
-              <Select.Option value="No">No</Select.Option>
-            </Select>
-          </div>
-          <div className="flex flex-col my-3 mx-2">
-            <button
-              className="px-3 py-3 my-3 w-full bg-blue-500 text-white rounded-md focus:bg-blue-600 focus:outline-none"
-              onClick={handleCreateProduct}
-            >
-              Submit
-            </button>
+
+              <input
+                type="number"
+                placeholder="Price"
+                className="px-3 py-3 my-3 w-full border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+
+              <input
+                type="number"
+                placeholder="Quantity"
+                className="px-3 py-3 my-3 w-full border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+              />
+
+              <Select
+                bordered={false}
+                placeholder="Shipping"
+                size="large"
+                showSearch
+                className="px-3 w-full border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md"
+                onChange={(value) => {
+                  setShipping(value);
+                }}
+              >
+                <Select.Option value="Yes">Yes</Select.Option>
+                <Select.Option value="No">No</Select.Option>
+              </Select>
+
+              <button
+                className="px-3 py-3 my-3 w-full bg-blue-500 text-white rounded-md focus:bg-blue-600 focus:outline-none"
+                onClick={handleCreateProduct}
+              >
+                Submit
+              </button>
+            </div>
           </div>
         </div>
-        <div className="row-span-2 col-span-2 ..."></div>
       </div>
     </Layout>
   );

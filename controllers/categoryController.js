@@ -5,7 +5,7 @@ export const createCategoryController = async (req, res) => {
   try {
     const { name } = req.body;
     if (!name) {
-      return resizeBy.status(401).send({ message: "Name is required" });
+      return res.status(401).send({ message: "Name is required" });
     }
     const existingCategory = await categoryModel.findOne({ name });
     if (existingCategory) {
