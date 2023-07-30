@@ -92,10 +92,10 @@ const CreateProduct = () => {
   return (
     <Layout title="Admin Dashboard | Product">
       <div class="md:grid grid-cols-5 gap-4">
-        <div class="md:col-span-2 p-3">
+        <div class="md:col-span-1 p-3">
           <AdminMenu />
         </div>
-        <div class="md:col-span-3 p-3 mt-4 shadow-md bg-white rounded-lg">
+        <div class="md:col-span-4 p-3 mt-4 shadow-md bg-white rounded-lg">
           <div className="grid grid-cols-2 gap-4">
             <div className="row-span-3 col-span-2 bg-white p-5 rounded-lg shadow-md">
               <h1 className="text-3xl font-semibold mb-4">Add New Product</h1>

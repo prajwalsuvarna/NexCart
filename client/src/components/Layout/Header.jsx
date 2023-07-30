@@ -37,7 +37,7 @@ export default function Header({ fixed }) {
               to="/"
             >
               <GiShoppingCart className="text-4xl" />
-              NexCom
+              NexCart
             </Link>
             <button
               className=" cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"

@@ -1,13 +1,16 @@
 import Layout from "../components/Layout/Layout";
 import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import Spinner from "../components/Spinner";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
   const { slug } = useParams();
   const [product, setProduct] = useState({});
   const [relatedProducts, setRelatedProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const getRelatedProducts = async (pid, cid) => {
     try {
       const res = await fetch(
@@ -18,7 +21,7 @@ const ProductDetails = () => {
           method: "GET",
         }
       );
-      const data = await res.json()
+      const data = await res.json();
       setRelatedProducts(data["related"]);
     } catch (error) {
       console.log(error);
@@ -43,67 +46,88 @@ const ProductDetails = () => {
         data["product"]._id,
         data["product"].category._id
       );
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
+
   useEffect(() => {
     if (slug) getProduct();
   }, [slug]);
 
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
-    <Layout title="">
+    <Layout title={product.name}>
       <div className="container">
-        {JSON.stringify(product)}
-        <div className="row">
-          <div className="col-md-6">
-            <img src={product?.image} alt="" className="img-fluid" />
-          </div>
-          <div className="col-md-6">
+        <div className="flex flex-col md:flex-row">
+          <div className="w-full md:w-1/2">
             <img
-              className="p-4 h-36 w-36 rounded-t-lg"
-              src={`${import.meta.env.VITE_API_URL}/api/product/product-photo/${
-                product._id
-              }`}
-              alt="product image"
+              className="h-[500px] w-full object-cover rounded-md"
+              src={`${import.meta.env.VITE_API_URL}/api/product/product-photo/${product._id}`}
+              alt="product"
+              onError={(e) => {
+                e.target.src = "/path/to/fallback-image.jpg"; // Provide a fallback image URL here
+              }}
             />
-            <h1>product name:{product?.name}</h1>
-            <p>product {product?.description}</p>
-            <p>{product?.price}</p>
-            <p>{product?.category?.name}</p>
-            <p>{product?.quantity}</p>
-            <p>{product?.shipping}</p>
+          </div>
+          <div className="w-full md:w-1/2 p-4">
+            <h1 className="text-2xl font-semibold">{product?.name}</h1>
+            <p className="text-gray-600">{product?.description}</p>
+            <p className="text-xl font-semibold mt-2">${product?.price}</p>
+            <p className="text-gray-700">Category: {product?.category?.name}</p>
+            <p className="text-gray-700">Quantity: {product?.quantity}</p>
+            <button
+              className="bg-blue-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 mt-4 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+              onClick={() => {
+                // Add the add-to-cart functionality here
+                toast.success("Product added to cart!");
+              }}
+            >
+              Add to Cart
+            </button>
           </div>
         </div>
-        <h2>Related products -{product?.category?.name}</h2>
-        <div className="row flex flex-wrap">
+        <h2 className="text-xl text-center font-semibold mt-8">
+          Related products - {product?.category?.name}
+          {relatedProducts?.length === 0 && (
+            <span className="text-red-500"> No related products found</span>
+          )}
+        </h2>
+        <div className="grid my-5 grid-cols-1 md:grid-cols-3 gap-6">
           {relatedProducts?.map((product, index) => (
-            <div
-              key={index}
-              className=" m-3 w-56 h-[400px] bg-white border rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 border-red-500"
-            >
+            <div key={index} className="border flex justify-center items-center flex-col bg-white rounded-md shadow-md p-4">
               <img
-                className="p-4 h-36 w-36 rounded-t-lg"
-                src={`${
-                  import.meta.env.VITE_API_URL
-                }/api/product/product-photo/${product._id}`}
-                alt="product image"
+                className="h-36 w-36 object-cover rounded-lg"
+                src={`${import.meta.env.VITE_API_URL}/api/product/product-photo/${product._id}`}
+                alt="product"
+                onError={(e) => {
+                  e.target.src = "/path/to/fallback-image.jpg"; // Provide a fallback image URL here
+                }}
               />
-              <div className="px-5   pb-2">
-                <div className=" border-2  flex flex-col flex-wrap items-center mb-10 justify-end">
-                  <span className="text-3xl flex justify-between font-bold text-gray-900 dark:text-white">
-                    {product.price}
-                    {product.name}
-                  </span>
-                  {product.description}
-                  <button
-                    onClick={() => navigate(`/product/${product.slug}`)}
-                    className=" my-2  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              <div className="mt-4">
+                <h1 className="font-semibold text-center text-gray-900">{product?.name}</h1>
+                <p className="text-gray-600 text-center">{product?.description}</p>
+                <p className="text-xl text-center font-semibold mt-2">${product?.price}</p>
+                <div className="flex mt-4">
+                  <Link
+                    to={`/product/${product.slug}`}
+                    className="bg-blue-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                   >
                     More Details
-                  </button>
-                  <button className="my-2  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Add to cart
+                  </Link>
+                  <button
+                    className="bg-blue-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                    onClick={() => {
+                      // Add the add-to-cart functionality here
+                      toast.success("Product added to cart!");
+                    }}
+                  >
+                    Add to Cart
                   </button>
                 </div>
               </div>

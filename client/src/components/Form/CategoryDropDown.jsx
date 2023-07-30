@@ -12,7 +12,7 @@ const Dropdown = ({ items }) => {
   const handleItemClick = (item) => {
     console.log(`Clicked: ${item}`);
     setSelectedItem(item.key);
-    // Perform any additional actions when an item is clicked
+    toggleDropdown(); 
   };
 
   return (
@@ -51,7 +51,7 @@ const Dropdown = ({ items }) => {
           {items?.map((item) => (
             <li
               key={item.key}
-              onClick={() => handleItemClick(item.label)}
+              onClick={() => window.location.reload()}
               className="px-4  cursor-pointer transition-colors duration-150 hover:bg-gray-100 hover:text-gray-800 dark:hover:text-gray-200"
             >
               <Link

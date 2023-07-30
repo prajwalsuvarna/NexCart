@@ -139,10 +139,10 @@ const CreateCategory = () => {
 
 <Layout title="Admin Dashboard | Category">
 <div class="md:grid grid-cols-5 gap-4">
-  <div class="md:col-span-2 p-3">
+  <div class="md:col-span-1 p-3">
     <AdminMenu />
   </div>
-  <div class="md:col-span-3 p-3 mt-4 shadow-md bg-white rounded-lg">
+  <div class="md:col-span-4 p-3 mt-4 shadow-md bg-white rounded-lg">
   <h1 className="text-5xl text-center">Catgeory</h1>
           <CategoryFrom
             handleSubmit={handleSubmit}

@@ -71,13 +71,15 @@ const AdminOrders = () => {
   };
 
   return (
-    <Layout title="Admin Orders">
-      <div class="grid grid-cols-5">
-        <div class="col-span-">
-          <AdminMenu />
-        </div>
-        <div class="col-span-4">
-          {orders?.map((o, i) => {
+   
+<Layout title="Admin Dashboard | Product">
+<div class="md:grid grid-cols-5 gap-4">
+  <div class="md:col-span-1 p-3">
+    <AdminMenu />
+  </div>
+  <div class="md:col-span-4 p-3 mt-4 shadow-md bg-white rounded-lg">
+    <h1 className="text-3xl text-center font-semibold">All Orders</h1>
+  {orders?.map((o, i) => {
             return (
               <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -137,28 +139,32 @@ const AdminOrders = () => {
                     </tr>
                   </tbody>
                 </table>
-                <div>
+                <div className="flex flex-wrap justify-center md:justify-start">
                   {o?.products?.map((item, index) => (
-                    <div key={index} className="border bg-gray-100 rounded-md">
-                      <img
-                        className="p-4 h-36 w-36 rounded-t-lg"
-                        src={`${
-                          import.meta.env.VITE_API_URL
-                        }/api/product/product-photo/${item._id}`}
-                        alt="product image"
-                      />
-                      <h1>{item?.name}</h1>
-                      <h1>{item?.price}</h1>
+                    <div key={index} className="border m-4 p-4 bg-white rounded-md shadow-md flex flex-col items-center">
+                    <img
+                      className="h-36 w-36 rounded-t-lg object-cover"
+                      src={`${import.meta.env.VITE_API_URL}/api/product/product-photo/${item._id}`}
+                      alt="product"
+                    />
+                    <div className="mt-4">
+                      <h1 className="font-semibold text-gray-900 text-lg">{item?.name}</h1>
+                      <p className="text-gray-600">{item?.description}</p>
+                      <p className="text-gray-900 font-semibold mt-2">${item?.price}</p>
                     </div>
+                  </div>
                   ))}
                 </div>
               </div>
             );
           })}
-        </div>
-      </div>
-    </Layout>
+  </div>
+</div>
+</Layout>
   );
 };
 
 export default AdminOrders;
+
+
+
