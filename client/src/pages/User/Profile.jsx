@@ -66,125 +66,33 @@ const Profile = () => {
 
   return (
     <Layout title="User | Profile">
-      <div className="grid grid-cols-10 gap-4">
-        <div className="col-span-4 border-2 border-red-600">
-          <UserMenu />
-          <div className="mt-5">
-            <h1 className="text-5xl">User Name: {auth?.user.name}</h1>
-            <h3>User Name: {auth?.user?.name}</h3>
-            <h3>User Email: {auth?.user?.email}</h3>
-            <h3>User Phone: {auth?.user?.phone}</h3>
-          </div>
-        </div>
-        <div className="col-span-6 border-2 border-red-600">
-          <h1 className="text-3xl text-center">User Profile</h1>
-          <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
-            <form onSubmit={handleSubmit}>
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 undefined"
-                >
-                  Name
-                </label>
-                <div className="flex flex-col items-start">
-                  <input
-                    type="text"
-                    name="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="block w-full mt-1 p-2 bg-gray-200  border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    placeholder="Enter your Name"
-                  />
-                </div>
-              </div>
-              <div className="mt-4">
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 undefined"
-                >
-                  Email
-                </label>
-                <div className="flex flex-col items-start">
-                  <input
-                    type="email"
-                    name="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="block w-full mt-1 p-2 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    placeholder="Enter your  email"
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 undefined"
-                >
-                  Phone
-                </label>
-                <div className="flex flex-col items-start">
-                  <input
-                    type="text"
-                    name="number"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="block w-full mt-1 p-2 bg-gray-200  border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    placeholder="Enter your phone"
-                  />
-                </div>
-              </div>
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 undefined"
-                >
-                  Address
-                </label>
-                <div className="flex flex-col items-start">
-                  <input
-                    type="text"
-                    name="address"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    className="block w-full mt-1 p-2 bg-gray-200  border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    placeholder="Enter your address"
-                  />
-                </div>
-              </div>
-              <div className="mt-4">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-700 undefined"
-                >
-                  Password
-                </label>
-                <div className="flex flex-col items-start">
-                  <input
-                    type="password"
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="block w-full mt-1 p-2 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    placeholder="Enter your password"
-                  />
-                </div>
-              </div>
-              <div className="flex items-center justify-center mt-4">
-                <button
-                  type="submit"
-                  className="inline-flex items-center px-4 py-2 ml-4 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-900 border border-transparent rounded-md active:bg-gray-900 false"
-                >
-                  UPDATE
-                </button>
-              </div>
-            </form>
-          </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
+      <div className="sm:col-span-1 bg-white shadow-md rounded-lg p-4">
+        <UserMenu />
+        <div className="mt-5">
+          <h1 className="text-3xl font-semibold">User Info</h1>
+          <h3 className="text-lg">Name: {auth?.user?.name}</h3>
+          <h3 className="text-lg">Email: {auth?.user?.email}</h3>
+          <h3 className="text-lg">Phone: {auth?.user?.phone}</h3>
         </div>
       </div>
-    </Layout>
+      <div className="sm:col-span-1 bg-white shadow-md rounded-lg p-4">
+        <h1 className="text-3xl font-semibold mb-4">User Profile</h1>
+        <form onSubmit={handleSubmit}>
+          {/* Form inputs */}
+          {/* ... */}
+          <div className="flex items-center justify-center mt-4">
+            <button
+              type="submit"
+              className="px-4 py-2 text-sm font-semibold text-white uppercase bg-gray-900 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-gray-800"
+            >
+              UPDATE
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </Layout>
   );
 };
 
