@@ -3,6 +3,7 @@ import userModel from '../models/userModel.js'
 
 export const requireLogin=async (req,res,next)=>{
 try{
+    console.log(req.headers.authorization)
     const decode=JWT.verify(req.headers.authorization,process.env.JWT_SECRET)
     req.user=decode//adding the decoded playload to the request object which contains the id
     next()

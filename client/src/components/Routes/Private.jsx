@@ -8,10 +8,10 @@ export default function PrivateRoute(){
     const [ok,setOk] = useState(false)
     useEffect(()=>{
      const authCheck=async()=>{
-         const res = await fetch(`${import.meta.env.VITE_API_URL}api/auth/user-auth`,{
+         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/user-auth`,{
                 method:"GET",
                 headers:{
-                    "Authorization":`Bearer ${auth?.token}`,
+                    "Authorization":`${auth?.token}`,
                     "Content-Type":"application/json"
                 },
                 credentials:"include"
